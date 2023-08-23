@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Shopping Cart</title>
+</head>
+<body>
+    <h1>Shopping Cart</h1>
+    
+    <button onclick="addToCart('Item 1', 10)">Add Item 1 - $10</button>
+    <button onclick="addToCart('Item 2', 20)">Add Item 2 - $20</button>
+    <button onclick="addToCart('Item 3', 30)">Add Item 3 - $30</button>
+    
+    <div id="cart">
+        <h2>Cart</h2>
+        <p>Total Amount: $<span id="totalAmount">0</span></p>
+        <button onclick="goToCheckout()">Proceed to Checkout</button>
+    </div>
+    
+    <script>
+        const cart = {}; // Store items and their totals
+        
+        function addToCart(itemName, itemValue) {
+            if (cart[itemName]) {
+                cart[itemName] += itemValue;
+            } else {
+                cart[itemName] = itemValue;
+            }
+            
+            updateCart();
+        }
+        
+        function updateCart() {
+            const totalAmountElement = document.getElementById("totalAmount");
+            totalAmountElement.textContent = calculateTotal();
+        }
+        
+        function calculateTotal() {
+            let total = 0;
+            for (const itemName in cart) {
+                total += cart[itemName];
+            }
+            return total;
+        }
+        
+        function goToCheckout() {
+            const queryParams = new URLSearchParams();
+            for (const itemName in cart) {
+                queryParams.append(itemName, cart[itemName]);
+            }
+            queryParams.append('total', calculateTotal());
+            window.location.href = `checkout.html?${queryParams.toString()}`;
+        }
+    </script>
+</body>
+</html>

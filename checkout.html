@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Checkout</title>
+</head>
+<body>
+    <h1>Checkout</h1>
+    
+    <div id="cart">
+        <h2>Cart</h2>
+        <ul id="cartList">
+            <!-- Display cart details from query parameters -->
+        </ul>
+        <p>Total Amount: $<span id="totalAmount">0</span></p>
+    </div>
+    
+    <script>
+        const queryParams = new URLSearchParams(window.location.search);
+        const cartList = document.getElementById("cartList");
+        const totalAmountElement = document.getElementById("totalAmount");
+
+        function displayCart() {
+            for (const param of queryParams) {
+                if (param[0] !== 'total') {
+                    const listItem = document.createElement("li");
+                    listItem.textContent = `${param[0]} - Total: $${param[1]}`;
+                    cartList.appendChild(listItem);
+                }
+            }
+        }
+        
+        function displayTotal() {
+            const total = queryParams.get('total');
+            totalAmountElement.textContent = total;
+        }
+
+        displayCart();
+        displayTotal();
+    </script>
+</body>
+</html>
